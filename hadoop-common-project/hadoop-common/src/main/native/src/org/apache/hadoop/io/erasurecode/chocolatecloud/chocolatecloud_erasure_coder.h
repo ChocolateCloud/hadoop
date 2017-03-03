@@ -29,7 +29,7 @@
 
 #include "chocolatecloud_load.h"
 
-#define MMAX 32
+#define MAXUNITSNUM 32
 
 typedef struct _ChocolateCloudCoder {
   int numParityUnits;

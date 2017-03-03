@@ -30,8 +30,8 @@
 
 typedef struct _RSDecoder {
   ChocolateCloudCoder decoder;
-  unsigned char* inputs[MMAX];
-  unsigned char* outputs[MMAX];
+  unsigned char* inputs[MAXUNITSNUM];
+  unsigned char* outputs[MAXUNITSNUM];
 } RSDecoder;
 
 JNIEXPORT void JNICALL
