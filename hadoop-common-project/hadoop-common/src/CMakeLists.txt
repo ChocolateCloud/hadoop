@@ -122,6 +122,31 @@ else ()
 endif ()
 
 set(STORED_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+hadoop_set_find_shared_library_version("1")
+find_library(CHOCOLATECLOUD_RS_LIBRARY
+    NAMES hdfs_ec_chocolate_cloud_rs
+    PATHS /usr/lib)
+set(CMAKE_FIND_LIBRARY_SUFFIXES ${STORED_CMAKE_FIND_LIBRARY_SUFFIXES})
+if (CHOCOLATECLOUD_RS_LIBRARY)
+    GET_FILENAME_COMPONENT(HADOOP_CHOCOLATECLOUD_RS_LIBRARY ${CHOCOLATECLOUD_RS_LIBRARY} NAME)
+    set(CHOCOLATECLOUD_RS_INCLUDE_DIR ${SRC}/io/erasurecode)
+    set(CHOCOLATECLOUD_RS_SOURCE_FILES
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_coder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_erasure_code_chocolatecloud_rs.c
+        ${SRC}/io/erasurecode/jni_common.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs.c
+        ${SRC}/io/erasurecode/chocolatecloud/jni_chocolatecloud.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_encoder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_decoder.c)
+else (CHOCOLATECLOUD_RS_LIBRARY)
+    IF(REQUIRE_CHOCOLATECLOUD_RS)
+        MESSAGE(FATAL_ERROR "Required ChocolateCloud-RS library could not be found.  CHOCOLATECLOUD_RS_LIBRARY=${CHOCOLATECLOUD_RS_LIBRARY} Please make sure that /usr/lib/libhdfs_ec_chocolate_cloud_rs.so.1 exists to build with ChocolateCloud-RS library.")
+    ENDIF(REQUIRE_CHOCOLATECLOUD_RS)
+endif (CHOCOLATECLOUD_RS_LIBRARY)
+
+set(STORED_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
 hadoop_set_find_shared_library_version("2")
 find_library(ISAL_LIBRARY
     NAMES isal
@@ -234,6 +259,7 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${BZIP2_INCLUDE_DIR}
     ${SNAPPY_INCLUDE_DIR}
+    ${CHOCOLATECLOUD_RS_INCLUDE_DIR}
     ${ISAL_INCLUDE_DIR}
     ${ZSTD_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
@@ -248,6 +274,7 @@ hadoop_add_dual_library(hadoop
     ${SRC}/io/compress/lz4/Lz4Decompressor.c
     ${SRC}/io/compress/lz4/lz4.c
     ${SRC}/io/compress/lz4/lz4hc.c
+    ${CHOCOLATECLOUD_RS_SOURCE_FILES}
     ${ISAL_SOURCE_FILES}
     ${SNAPPY_SOURCE_FILES}
     ${ZSTD_SOURCE_FILES}
