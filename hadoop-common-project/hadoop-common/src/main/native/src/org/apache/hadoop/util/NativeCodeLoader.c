@@ -60,20 +60,20 @@ JNIEXPORT jboolean JNICALL Java_org_apache_hadoop_util_NativeCodeLoader_buildSup
 #endif
 }
 
-JNIEXPORT jboolean JNICALL Java_org_apache_hadoop_util_NativeCodeLoader_buildSupportsChocolateCloudRS
+JNIEXPORT jboolean JNICALL Java_org_apache_hadoop_util_NativeCodeLoader_buildSupportsIsal
   (JNIEnv *env, jclass clazz)
 {
-#ifdef HADOOP_CHOCOLATECLOUD_RS_LIBRARY
+#ifdef HADOOP_ISAL_LIBRARY
   return JNI_TRUE;
 #else
   return JNI_FALSE;
 #endif
 }
 
-JNIEXPORT jboolean JNICALL Java_org_apache_hadoop_util_NativeCodeLoader_buildSupportsIsal
+JNIEXPORT jboolean JNICALL Java_org_apache_hadoop_util_NativeCodeLoader_buildSupportsChocolateCloudRS
   (JNIEnv *env, jclass clazz)
 {
-#ifdef HADOOP_ISAL_LIBRARY
+#ifdef HADOOP_CHOCOLATECLOUD_RS_LIBRARY
   return JNI_TRUE;
 #else
   return JNI_FALSE;

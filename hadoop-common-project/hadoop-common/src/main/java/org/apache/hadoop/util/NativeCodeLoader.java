@@ -80,14 +80,14 @@ public final class NativeCodeLoader {
   public static native boolean buildSupportsSnappy();
 
   /**
-   * Returns true only if this build was compiled with support for ChocolateCloud-RS
-   */
-  public static native boolean buildSupportsChocolateCloudRS();
-
-  /**
    * Returns true only if this build was compiled with support for ISA-L.
    */
   public static native boolean buildSupportsIsal();
+
+  /**
+   * Returns true only if this build was compiled with support for ChocolateCloud-RS
+   */
+  public static native boolean buildSupportsChocolateCloudRS();
 
   /**
   * Returns true only if this build was compiled with support for ZStandard.

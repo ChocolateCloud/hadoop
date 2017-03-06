@@ -602,10 +602,12 @@
         <openssl.prefix></openssl.prefix>
         <openssl.lib></openssl.lib>
         <openssl.include></openssl.include>
-        <require.chocolatecloud.rs>false</require.chocolatecloud.rs>
         <require.isal>false</require.isal>
         <isal.prefix></isal.prefix>
         <isal.lib></isal.lib>
+        <require.chocolatecloud.rs>false</require.chocolatecloud.rs>
+        <chocolatecloud.rs.prefix></chocolatecloud.rs.prefix>
+        <chocolatecloud.rs.lib></chocolatecloud.rs.lib>
         <require.openssl>false</require.openssl>
         <runningWithNative>true</runningWithNative>
         <bundle.openssl.in.bin>false</bundle.openssl.in.bin>
@@ -661,12 +663,12 @@
                     <javahClassName>org.apache.hadoop.io.compress.zstd.ZStandardDecompressor</javahClassName>
                     <javahClassName>org.apache.hadoop.io.compress.lz4.Lz4Compressor</javahClassName>
                     <javahClassName>org.apache.hadoop.io.compress.lz4.Lz4Decompressor</javahClassName>
-                    <javahClassName>org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.ErasureCodeNative</javahClassName>
-                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawEncoder</javahClassName>
-                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawDecoder</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawEncoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawDecoder</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawEncoder</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawDecoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeXORRawEncoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeXORRawDecoder</javahClassName>
                     <javahClassName>org.apache.hadoop.crypto.OpensslCipher</javahClassName>
@@ -702,10 +704,12 @@
                     <CUSTOM_ZSTD_PREFIX>${zstd.prefix}</CUSTOM_ZSTD_PREFIX>
                     <CUSTOM_ZSTD_LIB>${zstd.lib} </CUSTOM_ZSTD_LIB>
                     <CUSTOM_ZSTD_INCLUDE>${zstd.include} </CUSTOM_ZSTD_INCLUDE>
-                    <REQUIRE_CHOCOLATECLOUD_RS>${require.chocolatecloud.rs} </REQUIRE_CHOCOLATECLOUD_RS>
                     <REQUIRE_ISAL>${require.isal} </REQUIRE_ISAL>
                     <CUSTOM_ISAL_PREFIX>${isal.prefix} </CUSTOM_ISAL_PREFIX>
                     <CUSTOM_ISAL_LIB>${isal.lib} </CUSTOM_ISAL_LIB>
+                    <REQUIRE_CHOCOLATECLOUD_RS>${require.chocolatecloud.rs} </REQUIRE_CHOCOLATECLOUD_RS>
+                    <CUSTOM_CHOCOLATECLOUD_RS_PREFIX>${chocolatecloud.rs.prefix} </CUSTOM_CHOCOLATECLOUD_RS_PREFIX>
+                    <CUSTOM_CHOCOLATECLOUD_RS_LIB>${chocolatecloud.rs.lib} </CUSTOM_CHOCOLATECLOUD_RS_LIB>
                     <REQUIRE_OPENSSL>${require.openssl} </REQUIRE_OPENSSL>
                     <CUSTOM_OPENSSL_PREFIX>${openssl.prefix} </CUSTOM_OPENSSL_PREFIX>
                     <CUSTOM_OPENSSL_LIB>${openssl.lib} </CUSTOM_OPENSSL_LIB>
@@ -881,7 +885,7 @@
                     <argument>/p:CustomOpensslInclude=${openssl.include}</argument>
                     <argument>/p:RequireOpenssl=${require.openssl}</argument>
                     <argument>/p:RequireIsal=${require.isal}</argument>
-                    <argument>/p:CustomIsalPrefix=${isal.prefix}</argument>
+                    <argument>/p:CustoimIsalPrefix=${isal.prefix}</argument>
                     <argument>/p:CustomIsalLib=${isal.lib}</argument>
                   </arguments>
                 </configuration>
