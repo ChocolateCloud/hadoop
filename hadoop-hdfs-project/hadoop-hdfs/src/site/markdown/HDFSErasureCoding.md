@@ -122,7 +122,7 @@ Deployment
 ### Enable ChocolateCloud-RS
 
   HDFS has another native implementation of default RS codec which leverages ChocolateCloud-RS library to improve the encoding and decoding calculation. To enable and use ChocolateCLoud-RS, there are three steps.
-  1. Get ChocolateCloud-RS library. Please visit https://www.chocolate-cloud.cc/ for details.
+  1. Get ChocolateCloud-RS library. Please visit https://www.chocolate-cloud.cc/hdfs-plugins for details.
   2. Build Hadoop with ChocolateCloud-RS support. Please refer to "ChocolateCloud-RS build options" section in "Build instructions for Hadoop"(BUILDING.txt) document. Use -Dbundle.chocolatecloud.rs to copy the contents of the chocolatecloud.rs.lib directory into the final tar file. Deploy hadoop with the tar file. Make sure ChocolateCloud-RS library is available on both HDFS client and DataNodes.
   3. Configure the `io.erasurecode.codec.rs.rawcoder` key with value `org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawErasureCoderFactory` on HDFS client and DataNodes.
 

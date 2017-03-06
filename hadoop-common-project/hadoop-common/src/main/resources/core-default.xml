@@ -661,8 +661,10 @@
   <value>org.apache.hadoop.io.erasurecode.rawcoder.RSRawErasureCoderFactory</value>
   <description>
     Raw coder implementation for the rs codec. The default value is a
-    pure Java implementation. There is also a native implementation. Its value
-    is org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawErasureCoderFactory.
+    pure Java implementation. There is also a native implementation using ISA-L library. Its value
+    is org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawErasureCoderFactory. Another
+    implementation uses ChocolateCloud-RS library. Its value is
+    org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawErasureCoderFactory.
   </description>
 </property>
 
