@@ -762,6 +762,9 @@
         <require.isal>false</require.isal>
         <isal.prefix></isal.prefix>
         <isal.lib></isal.lib>
+        <require.chocolatecloud.rs>false</require.chocolatecloud.rs>
+        <chocolatecloud.rs.prefix></chocolatecloud.rs.prefix>
+        <chocolatecloud.rs.lib></chocolatecloud.rs.lib>
         <require.snappy>false</require.snappy>
         <bundle.snappy.in.bin>true</bundle.snappy.in.bin>
         <zstd.prefix></zstd.prefix>
@@ -823,8 +826,11 @@
                     <javahClassName>org.apache.hadoop.io.compress.lz4.Lz4Compressor</javahClassName>
                     <javahClassName>org.apache.hadoop.io.compress.lz4.Lz4Decompressor</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.ErasureCodeNative</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawEncoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeRSRawDecoder</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawEncoder</javahClassName>
+                    <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawDecoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeXORRawEncoder</javahClassName>
                     <javahClassName>org.apache.hadoop.io.erasurecode.rawcoder.NativeXORRawDecoder</javahClassName>
                     <javahClassName>org.apache.hadoop.crypto.OpensslCipher</javahClassName>
@@ -887,6 +893,9 @@
                     <argument>/p:RequireIsal=${require.isal}</argument>
                     <argument>/p:CustoimIsalPrefix=${isal.prefix}</argument>
                     <argument>/p:CustomIsalLib=${isal.lib}</argument>
+                    <argument>/p:RequireChocolateCloudRS=${require.chocolatecloud.rs}</argument>
+                    <argument>/p:CustomChocolateCloudRSPrefix=${chocolatecloud.rs.prefix}</argument>
+                    <argument>/p:CustomChocolateCloudRSLib=${chocolatecloud.rs.lib}</argument>
                   </arguments>
                 </configuration>
               </execution>

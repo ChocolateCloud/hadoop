@@ -33,6 +33,10 @@
 #include "config.h"
 #endif
 
+#ifdef WINDOWS
+#include <Windows.h>
+#endif
+
 ChocolateCloudLibLoader* chocolateCloudLoader;
 
 /**
@@ -52,6 +56,21 @@ static const char* load_functions() {
                             "hdfs_ec_chocolate_cloud_rs_reconstruct");
 #endif
 
+#ifdef WINDOWS
+  EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_init,
+                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_init),
+                            "hdfs_ec_chocolate_cloud_rs_init");
+  EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_exit,
+                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_exit),
+                            "hdfs_ec_chocolate_cloud_rs_exit");
+  EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_encode,
+                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode),
+                            "hdfs_ec_chocolate_cloud_rs_encode");
+  EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_reconstruct,
+                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_reconstruct),
+                            "hdfs_ec_chocolate_cloud_rs_reconstruct");
+#endif
+
   return NULL;
 }
 
@@ -60,6 +79,8 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
   const char* library = NULL;
 #ifdef UNIX
   Dl_info dl_info;
+#else
+  LPTSTR filename = NULL;
 #endif
 
   err[0] = '\0';
@@ -82,6 +103,14 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
   dlerror();
   #endif
 
+  #ifdef WINDOWS
+  chocolateCloudLoader->libec = LoadLibrary(library_name);
+  if (chocolateCloudLoader->libec == NULL) {
+    snprintf(err, err_len, "Failed to load %s", library_name);
+    return;
+  }
+  #endif
+
   errMsg = load_functions(chocolateCloudLoader->libec);
   if (errMsg != NULL) {
     snprintf(err, err_len, "Loading functions from ChocolateCloud library failed: %s", errMsg);
@@ -90,6 +119,10 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
 #ifdef UNIX
   if(dladdr(chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode, &dl_info)) {
     library = dl_info.dli_fname;
+  }
+#else
+  if (GetModuleFileName(chocolateCloudLoader->libec, filename, 256) > 0) {
+    library = filename;
   }
 #endif
 

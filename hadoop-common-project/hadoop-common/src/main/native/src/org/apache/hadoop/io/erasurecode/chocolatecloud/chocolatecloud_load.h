@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "org_apache_hadoop.h"
 
@@ -32,15 +31,17 @@
 #include "config.h"
 #endif
 
+#ifdef WINDOWS
+#include <Windows.h>
+#endif
+
 #ifndef _CHOCOLATECLOUD_LOAD_H_
 #define _CHOCOLATECLOUD_LOAD_H_
 
 #ifdef UNIX
 
 typedef int (*__d_hdfs_ec_chocolate_cloud_rs_init)();
-
 typedef int (*__d_hdfs_ec_chocolate_cloud_rs_exit)();
-
 typedef int (*__d_hdfs_ec_chocolate_cloud_rs_encode)
 (
     unsigned char**,
@@ -50,8 +51,35 @@ typedef int (*__d_hdfs_ec_chocolate_cloud_rs_encode)
     const unsigned,
     const int
 );
-
 typedef int (*__d_hdfs_ec_chocolate_cloud_rs_reconstruct)
+(
+    const unsigned,
+    const unsigned,
+    const int,
+
+    unsigned char**,
+    unsigned char**,
+
+    const int*,
+    const unsigned
+);
+
+#endif
+
+#ifdef WINDOWS
+
+typedef int (__cdecl *__d_hdfs_ec_chocolate_cloud_rs_init)();
+typedef int (__cdecl *__d_hdfs_ec_chocolate_cloud_rs_exit)();
+typedef int (__cdecl *__d_hdfs_ec_chocolate_cloud_rs_encode)
+(
+    unsigned char**,
+    unsigned char**,
+
+    const unsigned,
+    const unsigned,
+    const int
+);
+typedef int (__cdecl *__d_hdfs_ec_chocolate_cloud_rs_reconstruct)
 (
     const unsigned,
     const unsigned,
@@ -94,6 +122,21 @@ void *myDlsym(void *handle, const char *symbol) {
 /* A helper macro to dlsym the requisite dynamic symbol in NON-JNI env. */
 #define EC_LOAD_DYNAMIC_SYMBOL(func_ptr, symbol) \
   if ((func_ptr = myDlsym(chocolateCloudLoader->libec, symbol)) == NULL) { \
+    return "Failed to load symbol" symbol; \
+  }
+
+#endif
+
+#ifdef WINDOWS
+
+static FARPROC WINAPI myDlsym(HMODULE handle, LPCSTR symbol) {
+  FARPROC func_ptr = GetProcAddress(handle, symbol);
+  return func_ptr;
+}
+
+/* A helper macro to dlsym the requisite dynamic symbol in NON-JNI env. */
+#define EC_LOAD_DYNAMIC_SYMBOL(func_type, func_ptr, symbol) \
+  if ((func_ptr = (func_type)myDlsym(chocolateCloudLoader->libec, symbol)) == NULL) { \
     return "Failed to load symbol" symbol; \
   }
 
