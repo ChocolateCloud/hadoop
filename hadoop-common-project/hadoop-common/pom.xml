@@ -742,6 +742,20 @@
                   </env>
                 </configuration>
               </execution>
+              <execution>
+                <id>chocolate_cloud_rs_test</id>
+                <goals><goal>cmake-test</goal></goals>
+                <phase>test</phase>
+                <configuration>
+                  <binary>${project.build.directory}/native/chocolate_cloud_rs_test</binary>
+                  <timeout>300</timeout>
+                  <results>${project.build.directory}/native-results</results>
+                  <skipIfMissing>true</skipIfMissing>
+                  <env>
+                    <LD_LIBRARY_PATH>${LD_LIBRARY_PATH}:${chocolatecloud.rs.lib}:${chocolatecloud.rs.prefix}:/usr/lib</LD_LIBRARY_PATH>
+                  </env>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
         </plugins>

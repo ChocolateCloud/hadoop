@@ -135,8 +135,8 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
   h_hdfs_ec_chocolate_cloud_rs_init();
 }
 
-int build_support_chocolatecloud(const char* library_name) {
-#ifdef library_name
+int build_support_chocolate_cloud_rs() {
+#ifdef HADOOP_CHOCOLATECLOUD_RS_LIBRARY
   return 1;
 #else
   return 0;

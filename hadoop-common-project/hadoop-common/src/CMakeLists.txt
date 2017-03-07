@@ -179,6 +179,14 @@ if (CHOCOLATECLOUD_RS_LIBRARY)
         ${SRC}/io/erasurecode/chocolatecloud/jni_chocolatecloud.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_encoder.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_decoder.c)
+
+        add_executable(chocolate_cloud_rs_test
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_coder.c
+        ${TST}/io/erasurecode/chocolatecloud/rs/chocolate_cloud_rs_test.c
+        )
+        target_link_libraries(chocolate_cloud_rs_test ${CMAKE_DL_LIBS})
 else (CHOCOLATECLOUD_RS_LIBRARY)
     IF(REQUIRE_CHOCOLATECLOUD_RS)
         MESSAGE(FATAL_ERROR "Required ChocolateCloud-RS library could not be found. Please make sure that libhdfs_ec_chocolate_cloud_rs.so.1 exists under /usr/lib to build with ChocolateCloud-RS library. CHOCOLATECLOUD_RS_LIBRARY=${CHOCOLATECLOUD_RS_LIBRARY}, CUSTOM_CHOCOLATECLOUD_RS_PREFIX=${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}")

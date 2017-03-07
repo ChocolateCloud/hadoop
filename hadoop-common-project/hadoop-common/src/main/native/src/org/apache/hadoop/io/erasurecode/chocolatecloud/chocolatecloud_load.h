@@ -145,7 +145,7 @@ static FARPROC WINAPI myDlsym(HMODULE handle, LPCSTR symbol) {
 /**
  * Return 0 if not support, 1 otherwise.
  */
-int build_support_chocolatecloud(const char*);
+int build_support_chocolate_cloud_rs();
 
 /**
  * Initialize and load erasure code library, returning error message if any.
