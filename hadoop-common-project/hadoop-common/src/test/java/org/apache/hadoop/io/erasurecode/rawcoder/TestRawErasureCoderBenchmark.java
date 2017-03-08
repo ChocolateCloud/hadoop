@@ -69,8 +69,8 @@ public class TestRawErasureCoderBenchmark {
     Assume.assumeTrue(ErasureCodeChocolateCloudRS.isNativeCodeLoaded());
     // ChocolateCloud-RS coder
     RawErasureCoderBenchmark.performBench("encode",
-            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 1, 300, 64);
+            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 5, 300, 64);
     RawErasureCoderBenchmark.performBench("decode",
-            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 1, 200, 128);
+            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 6, 200, 128);
   }
 }
