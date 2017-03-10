@@ -905,7 +905,7 @@
                     <argument>/p:CustomOpensslInclude=${openssl.include}</argument>
                     <argument>/p:RequireOpenssl=${require.openssl}</argument>
                     <argument>/p:RequireIsal=${require.isal}</argument>
-                    <argument>/p:CustoimIsalPrefix=${isal.prefix}</argument>
+                    <argument>/p:CustomIsalPrefix=${isal.prefix}</argument>
                     <argument>/p:CustomIsalLib=${isal.lib}</argument>
                     <argument>/p:RequireChocolateCloudRS=${require.chocolatecloud.rs}</argument>
                     <argument>/p:CustomChocolateCloudRSPrefix=${chocolatecloud.rs.prefix}</argument>
