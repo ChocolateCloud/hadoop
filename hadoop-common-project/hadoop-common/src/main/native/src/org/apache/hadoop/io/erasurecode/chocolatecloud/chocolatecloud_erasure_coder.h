@@ -16,10 +16,6 @@
  * limitations under the License.
  */
 
-/**
- * This is a sample program illustrating how to use the ChocolateCloud library.
- */
-
 #ifndef _CHOCOLATECLOUD_ERASURE_CODER_H_
 #define _CHOCOLATECLOUD_ERASURE_CODER_H_
 

@@ -24,7 +24,7 @@ import org.apache.hadoop.io.erasurecode.ErasureCoderOptions;
 import java.nio.ByteBuffer;
 
 /**
- * A Reed-Solomon raw decoder using ChocolateCloud library.
+ * A Reed-Solomon raw decoder using ChocolateCloud-RS library.
  */
 @InterfaceAudience.Private
 public class NativeChocolateCloudRSRawDecoder extends AbstractNativeRawDecoder {

@@ -18,7 +18,6 @@
 package org.apache.hadoop.io.erasurecode.rawcoder;
 
 import org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS;
-import org.apache.hadoop.io.erasurecode.ErasureCodeNative;
 import org.junit.Assume;
 import org.junit.Before;
 

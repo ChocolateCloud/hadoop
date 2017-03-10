@@ -106,7 +106,8 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
   #ifdef WINDOWS
   chocolateCloudLoader->libec = LoadLibrary(library_name);
   if (chocolateCloudLoader->libec == NULL) {
-    snprintf(err, err_len, "Failed to load %s", library_name);
+    snprintf(err, err_len, "Failed to load %s. Please make sure that %s exists and it is readable.",
+                             library_name, library_name);
     return;
   }
   #endif

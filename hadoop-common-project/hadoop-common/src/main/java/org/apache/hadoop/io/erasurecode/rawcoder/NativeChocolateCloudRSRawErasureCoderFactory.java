@@ -21,7 +21,7 @@ import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.io.erasurecode.ErasureCoderOptions;
 
 /**
- * A raw coder factory for raw Reed-Solomon coder in native using ChocolateCloud library.
+ * A raw coder factory for raw Reed-Solomon coder in native using ChocolateCloud-RS library.
  */
 
 @InterfaceAudience.Private

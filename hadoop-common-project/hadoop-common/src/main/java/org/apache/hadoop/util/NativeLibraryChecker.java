@@ -19,8 +19,8 @@
 package org.apache.hadoop.util;
 
 import org.apache.hadoop.io.compress.ZStandardCodec;
-import org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS;
 import org.apache.hadoop.io.erasurecode.ErasureCodeNative;
+import org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.crypto.OpensslCipher;
 import org.apache.hadoop.io.compress.Lz4Codec;
