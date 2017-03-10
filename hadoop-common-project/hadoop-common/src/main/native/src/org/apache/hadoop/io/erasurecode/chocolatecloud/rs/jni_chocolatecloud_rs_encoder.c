@@ -21,15 +21,14 @@
 #include <string.h>
 
 #include "org_apache_hadoop.h"
-#include "chocolatecloud/chocolatecloud_erasure_code.h"
-#include "chocolatecloud/jni_chocolatecloud.h"
+#include "chocolatecloud_rs_erasure_code.h"
 #include "jni_chocolatecloud_rs.h"
-#include "chocolatecloud/chocolatecloud_load.h"
+#include "chocolatecloud_rs_load.h"
 #include "../../jni_common.h"
 #include "org_apache_hadoop_io_erasurecode_rawcoder_NativeChocolateCloudRSRawEncoder.h"
 
 typedef struct _RSEncoder {
-  ChocolateCloudCoder encoder;
+  ChocolateCloudRSCoder encoder;
   unsigned char* inputs[MAXUNITSNUM];
   unsigned char* outputs[MAXUNITSNUM];
 } RSEncoder;
@@ -39,16 +38,16 @@ Java_org_apache_hadoop_io_erasurecode_rawcoder_NativeChocolateCloudRSRawEncoder_
 JNIEnv *env, jobject thiz, jint numDataUnits, jint numParityUnits) {
   RSEncoder* rsEncoder = (RSEncoder*)malloc(sizeof(RSEncoder));
   memset(rsEncoder, 0, sizeof(*rsEncoder));
-  initChocolateCloudCoder(&rsEncoder->encoder, (int)numDataUnits, (int)numParityUnits);
+  initChocolateCloudRSCoder(&rsEncoder->encoder, (int)numDataUnits, (int)numParityUnits);
 
-  setChocolateCloudCoder(env, thiz, &rsEncoder->encoder);
+  setChocolateCloudRSCoder(env, thiz, &rsEncoder->encoder);
 }
 
 JNIEXPORT void JNICALL
 Java_org_apache_hadoop_io_erasurecode_rawcoder_NativeChocolateCloudRSRawEncoder_encodeImpl(
 JNIEnv *env, jobject thiz, jobjectArray inputs, jintArray inputOffsets,
 jint dataLen, jobjectArray outputs, jintArray outputOffsets) {
-  RSEncoder* rsEncoder = (RSEncoder*)getChocolateCloudCoder(env, thiz);
+  RSEncoder* rsEncoder = (RSEncoder*)getChocolateCloudRSCoder(env, thiz);
 
   int numDataUnits = rsEncoder->encoder.numDataUnits;
   int numParityUnits = rsEncoder->encoder.numParityUnits;
@@ -57,14 +56,14 @@ jint dataLen, jobjectArray outputs, jintArray outputOffsets) {
   getInputs(env, inputs, inputOffsets, rsEncoder->inputs, numDataUnits);
   getOutputs(env, outputs, outputOffsets, rsEncoder->outputs, numParityUnits);
 
-  chocolateCloudEncode(rsEncoder->inputs, rsEncoder->outputs,
+  chocolateCloudRSEncode(rsEncoder->inputs, rsEncoder->outputs,
                         &rsEncoder->encoder, chunkSize);
 }
 
 JNIEXPORT void JNICALL
 Java_org_apache_hadoop_io_erasurecode_rawcoder_NativeChocolateCloudRSRawEncoder_destroyImpl(
 JNIEnv *env, jobject thiz) {
-  RSEncoder* rsEncoder = (RSEncoder*)getChocolateCloudCoder(env, thiz);
-  exitChocolateCloudCoder();
+  RSEncoder* rsEncoder = (RSEncoder*)getChocolateCloudRSCoder(env, thiz);
+  exitChocolateCloudRSCoder();
   free(rsEncoder);
 }

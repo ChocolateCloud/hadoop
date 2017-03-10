@@ -187,15 +187,14 @@
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_rs_decoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_xor_encoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_xor_decoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
-    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\chocolatecloud_load.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'">
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_load.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'">
       <AdditionalOptions>/D HADOOP_CHOCOLATECLOUD_RS_LIBRARY=L\"hdfs_ec_chocolate_cloud_rs.dll\"</AdditionalOptions>
     </ClCompile>
-    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\chocolatecloud_erasure_code.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
-    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\chocolatecloud_erasure_coder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_code.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_coder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_erasure_code_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_common.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
-    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\jni_chocolatecloud.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_encoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_decoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
   </ItemGroup>

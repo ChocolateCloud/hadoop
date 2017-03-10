@@ -16,20 +16,20 @@
  * limitations under the License.
  */
 
-#include "chocolatecloud_erasure_code.h"
-#include "chocolatecloud_erasure_coder.h"
+#include "chocolatecloud_rs_erasure_code.h"
+#include "chocolatecloud_rs_erasure_coder.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void initChocolateCloudCoder(ChocolateCloudCoder* pCoder, int numDataUnits, int numParityUnits) {
+void initChocolateCloudRSCoder(ChocolateCloudRSCoder* pCoder, int numDataUnits, int numParityUnits) {
   pCoder->numParityUnits = numParityUnits;
   pCoder->numDataUnits = numDataUnits;
 }
 
-int chocolateCloudEncode(unsigned char** dataUnits, unsigned char** parityUnits,
-     ChocolateCloudCoder* pCoder, const int chunkSize) {
+int chocolateCloudRSEncode(unsigned char** dataUnits, unsigned char** parityUnits,
+     ChocolateCloudRSCoder* pCoder, const int chunkSize) {
   int numDataUnits = pCoder->numDataUnits;
   int numParityUnits = pCoder->numParityUnits;
 
@@ -39,7 +39,7 @@ int chocolateCloudEncode(unsigned char** dataUnits, unsigned char** parityUnits,
   return 0;
 }
 
-int chocolateCloudReconstruct(ChocolateCloudCoder* pCoder, const int chunkSize,
+int chocolateCloudRSReconstruct(ChocolateCloudRSCoder* pCoder, const int chunkSize,
      unsigned char** inputs, unsigned char** outputs,
      const int* erasedIndexes, const unsigned numErased) {
   int numDataUnits = pCoder->numDataUnits;
@@ -51,6 +51,6 @@ int chocolateCloudReconstruct(ChocolateCloudCoder* pCoder, const int chunkSize,
   return 0;
 }
 
-void exitChocolateCloudCoder() {
+void exitChocolateCloudRSCoder() {
   h_hdfs_ec_chocolate_cloud_rs_exit();
 }

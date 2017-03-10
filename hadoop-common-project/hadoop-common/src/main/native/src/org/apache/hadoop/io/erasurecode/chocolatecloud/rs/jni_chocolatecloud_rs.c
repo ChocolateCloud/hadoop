@@ -20,14 +20,40 @@
 #include <string.h>
 
 #include "org_apache_hadoop.h"
-#include "chocolatecloud/chocolatecloud_load.h"
-#include "chocolatecloud/chocolatecloud_erasure_code.h"
+#include "chocolatecloud_rs_load.h"
+#include "chocolatecloud_rs_erasure_code.h"
 #include "jni_chocolatecloud_rs.h"
 
-void loadChocolateCloudRSLib(JNIEnv *env, const char* library_name) {
+void loadChocolateCloudRSLib(JNIEnv *env) {
   char errMsg[1024];
-  load_chocolatecloud_lib(errMsg, sizeof(errMsg), library_name);
+  load_chocolatecloud_rs_lib(errMsg, sizeof(errMsg));
   if (strlen(errMsg) > 0) {
     THROW(env, "java/lang/UnsatisfiedLinkError", errMsg);
   }
+}
+
+void setChocolateCloudRSCoder(JNIEnv* env, jobject thiz, ChocolateCloudRSCoder* pCoder) {
+  jclass clazz = (*env)->GetObjectClass(env, thiz);
+  jfieldID fid = (*env)->GetFieldID(env, clazz, "nativeCoder", "J");
+  if (fid == NULL) {
+    THROW(env, "java/lang/UnsatisfiedLinkError",
+                                    "Field nativeCoder not found");
+  }
+  (*env)->SetLongField(env, thiz, fid, (jlong) pCoder);
+}
+
+ChocolateCloudRSCoder* getChocolateCloudRSCoder(JNIEnv* env, jobject thiz) {
+  jclass clazz;
+  jfieldID fid;
+  ChocolateCloudRSCoder* pCoder;
+
+  clazz = (*env)->GetObjectClass(env, thiz);
+  fid = (*env)->GetFieldID(env, clazz, "nativeCoder", "J");
+  if (fid == NULL) {
+    THROW(env, "java/lang/UnsatisfiedLinkError",
+                                    "Field nativeCoder not found");
+  }
+  pCoder = (ChocolateCloudRSCoder*)(*env)->GetLongField(env, thiz, fid);
+
+  return pCoder;
 }

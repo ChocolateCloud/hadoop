@@ -35,8 +35,8 @@
 #include <Windows.h>
 #endif
 
-#ifndef _CHOCOLATECLOUD_LOAD_H_
-#define _CHOCOLATECLOUD_LOAD_H_
+#ifndef _CHOCOLATECLOUD_RS_LOAD_H_
+#define _CHOCOLATECLOUD_RS_LOAD_H_
 
 #ifdef UNIX
 
@@ -94,7 +94,7 @@ typedef int (__cdecl *__d_hdfs_ec_chocolate_cloud_rs_reconstruct)
 
 #endif
 
-typedef struct __ChocolateCloudLibLoader {
+typedef struct __ChocolateCloudRSLibLoader {
   // The loaded library handle
   void* libec;
   char* libname;
@@ -103,9 +103,9 @@ typedef struct __ChocolateCloudLibLoader {
   __d_hdfs_ec_chocolate_cloud_rs_exit hdfs_ec_chocolate_cloud_rs_exit;
   __d_hdfs_ec_chocolate_cloud_rs_encode hdfs_ec_chocolate_cloud_rs_encode;
   __d_hdfs_ec_chocolate_cloud_rs_reconstruct hdfs_ec_chocolate_cloud_rs_reconstruct;
-} ChocolateCloudLibLoader;
+} ChocolateCloudRSLibLoader;
 
-extern ChocolateCloudLibLoader* chocolateCloudLoader;
+extern ChocolateCloudRSLibLoader* chocolateCloudRSLoader;
 
 /**
  * A helper function to dlsym a 'symbol' from a given library-handle.
@@ -121,7 +121,7 @@ void *myDlsym(void *handle, const char *symbol) {
 
 /* A helper macro to dlsym the requisite dynamic symbol in NON-JNI env. */
 #define EC_LOAD_DYNAMIC_SYMBOL(func_ptr, symbol) \
-  if ((func_ptr = myDlsym(chocolateCloudLoader->libec, symbol)) == NULL) { \
+  if ((func_ptr = myDlsym(chocolateCloudRSLoader->libec, symbol)) == NULL) { \
     return "Failed to load symbol" symbol; \
   }
 
@@ -136,7 +136,7 @@ static FARPROC WINAPI myDlsym(HMODULE handle, LPCSTR symbol) {
 
 /* A helper macro to dlsym the requisite dynamic symbol in NON-JNI env. */
 #define EC_LOAD_DYNAMIC_SYMBOL(func_type, func_ptr, symbol) \
-  if ((func_ptr = (func_type)myDlsym(chocolateCloudLoader->libec, symbol)) == NULL) { \
+  if ((func_ptr = (func_type)myDlsym(chocolateCloudRSLoader->libec, symbol)) == NULL) { \
     return "Failed to load symbol" symbol; \
   }
 
@@ -150,9 +150,9 @@ int build_support_chocolate_cloud_rs();
 /**
  * Initialize and load erasure code library, returning error message if any.
  *
- * @param err     The err message buffer.
- * @param err_len The length of the message buffer.
+ * @param err           The err message buffer.
+ * @param err_len       The length of the message buffer.
  */
-void load_chocolatecloud_lib(char* err, size_t err_len, const char*);
+void load_chocolatecloud_rs_lib(char* err, size_t err_len);
 
-#endif //_CHOCOLATECLOUD_LOAD_H_
+#endif //_CHOCOLATECLOUD_RS_LOAD_H_

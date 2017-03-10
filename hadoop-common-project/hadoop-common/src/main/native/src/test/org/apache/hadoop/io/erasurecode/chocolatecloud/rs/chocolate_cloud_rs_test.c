@@ -20,9 +20,9 @@
  * This is a sample program illustrating how to use the ChocolateCloud-RS library.
  */
 
-#include "chocolatecloud/chocolatecloud_load.h"
-#include "chocolatecloud/chocolatecloud_erasure_code.h"
-#include "chocolatecloud/chocolatecloud_erasure_coder.h"
+#include "chocolatecloud/rs/chocolatecloud_rs_load.h"
+#include "chocolatecloud/rs/chocolatecloud_rs_erasure_code.h"
+#include "chocolatecloud/rs/chocolatecloud_rs_erasure_coder.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,10 +37,10 @@ int main(int argc, char *argv[]) {
   int numParityUnits = 3;
   unsigned char** dataUnits;
   unsigned char** parityUnits;
-  ChocolateCloudCoder* encoder;
+  ChocolateCloudRSCoder* encoder;
   int erasedIndexes[2];
   unsigned char* allUnits[MAXUNITSNUM];
-  ChocolateCloudCoder* decoder;
+  ChocolateCloudRSCoder* decoder;
   unsigned char* decodingOutput[2];
   unsigned char** backupUnits;
 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     return 0; // Normal, not an error
   }
 
-  load_chocolatecloud_lib(err, err_len, HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
+  load_chocolatecloud_rs_lib(err, err_len);
   if (strlen(err) > 0) {
     printf("Loading ChocolateCloud-RS library failed: %s\n", err);
     return -1;
@@ -78,14 +78,14 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  encoder = (ChocolateCloudCoder*)malloc(sizeof(ChocolateCloudCoder));
+  encoder = (ChocolateCloudRSCoder*)malloc(sizeof(ChocolateCloudRSCoder));
   memset(encoder, 0, sizeof(*encoder));
-  initChocolateCloudCoder(encoder, numDataUnits, numParityUnits);
-  chocolateCloudEncode(dataUnits, parityUnits, encoder, chunkSize);
+  initChocolateCloudRSCoder(encoder, numDataUnits, numParityUnits);
+  chocolateCloudRSEncode(dataUnits, parityUnits, encoder, chunkSize);
 
-  decoder = (ChocolateCloudCoder*)malloc(sizeof(ChocolateCloudCoder));
+  decoder = (ChocolateCloudRSCoder*)malloc(sizeof(ChocolateCloudRSCoder));
   memset(decoder, 0, sizeof(*decoder));
-  initChocolateCloudCoder(decoder, numDataUnits, numParityUnits);
+  initChocolateCloudRSCoder(decoder, numDataUnits, numParityUnits);
 
   memcpy(allUnits, dataUnits, numDataUnits * (sizeof (unsigned char*)));
   memcpy(allUnits + numDataUnits, parityUnits,
@@ -104,7 +104,7 @@ int main(int argc, char *argv[]) {
   decodingOutput[0] = malloc(chunkSize);
   decodingOutput[1] = malloc(chunkSize);
 
-  chocolateCloudReconstruct(decoder, chunkSize,
+  chocolateCloudRSReconstruct(decoder, chunkSize,
                             allUnits, decodingOutput,
                             erasedIndexes, 2);
 

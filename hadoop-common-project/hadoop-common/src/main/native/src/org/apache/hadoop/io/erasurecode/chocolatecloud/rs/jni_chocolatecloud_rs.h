@@ -25,8 +25,12 @@
 
 #include <jni.h>
 
-#include "chocolatecloud/chocolatecloud_erasure_coder.h"
+#include "chocolatecloud_rs_erasure_coder.h"
 
-void loadChocolateCloudRSLib(JNIEnv *env, const char*);
+void loadChocolateCloudRSLib(JNIEnv *env);
+
+void setChocolateCloudRSCoder(JNIEnv* env, jobject thiz, ChocolateCloudRSCoder* coder);
+
+ChocolateCloudRSCoder* getChocolateCloudRSCoder(JNIEnv* env, jobject thiz);
 
 #endif //_JNI_CHOCOLATECLOUD_RS_H_

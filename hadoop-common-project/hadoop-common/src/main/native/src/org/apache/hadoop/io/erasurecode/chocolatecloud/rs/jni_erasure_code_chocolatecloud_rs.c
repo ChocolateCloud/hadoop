@@ -21,9 +21,8 @@
 #include <string.h>
 
 #include "org_apache_hadoop.h"
-#include "chocolatecloud/jni_chocolatecloud.h"
 #include "jni_chocolatecloud_rs.h"
-#include "chocolatecloud/chocolatecloud_load.h"
+#include "chocolatecloud_rs_load.h"
 #include "org_apache_hadoop_io_erasurecode_ErasureCodeChocolateCloudRS.h"
 
 #ifdef UNIX
@@ -33,17 +32,17 @@
 JNIEXPORT void JNICALL
 Java_org_apache_hadoop_io_erasurecode_ErasureCodeChocolateCloudRS_loadLibrary
 (JNIEnv *env, jclass myclass) {
-  loadChocolateCloudRSLib(env, HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
+  loadChocolateCloudRSLib(env);
 }
 
 JNIEXPORT jstring JNICALL
 Java_org_apache_hadoop_io_erasurecode_ErasureCodeChocolateCloudRS_getLibraryName
 (JNIEnv *env, jclass myclass) {
-  if (chocolateCloudLoader == NULL) {
+  if (chocolateCloudRSLoader == NULL) {
     THROW(env, "java/lang/UnsatisfiedLinkError",
                              "Unavailable: library not loaded yet");
     return (jstring)NULL;
   }
 
-  return (*env)->NewStringUTF(env, chocolateCloudLoader->libname);
+  return (*env)->NewStringUTF(env, chocolateCloudRSLoader->libname);
 }

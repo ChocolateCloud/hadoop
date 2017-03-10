@@ -21,8 +21,8 @@
 #include <string.h>
 
 #include "org_apache_hadoop.h"
-#include "chocolatecloud_load.h"
-#include "chocolatecloud_erasure_code.h"
+#include "chocolatecloud_rs_load.h"
+#include "chocolatecloud_rs_erasure_code.h"
 
 #ifdef UNIX
 #include <sys/time.h>
@@ -37,44 +37,44 @@
 #include <Windows.h>
 #endif
 
-ChocolateCloudLibLoader* chocolateCloudLoader;
+ChocolateCloudRSLibLoader* chocolateCloudRSLoader;
 
 /**
- *  chocolatecloud_load.c
- *  Utility of loading the ChocolateCloud library and the required functions.
+ *  chocolatecloud_rs_load.c
+ *  Utility of loading the ChocolateCloud-RS library and the required functions.
  */
 
-static const char* load_functions() {
+static const char* load_chocolatecloud_rs_functions() {
 #ifdef UNIX
-  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_init),
+  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_init),
                             "hdfs_ec_chocolate_cloud_rs_init");
-  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_exit),
+  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_exit),
                             "hdfs_ec_chocolate_cloud_rs_exit");
-  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode),
+  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_encode),
                             "hdfs_ec_chocolate_cloud_rs_encode");
-  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_reconstruct),
+  EC_LOAD_DYNAMIC_SYMBOL((chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_reconstruct),
                             "hdfs_ec_chocolate_cloud_rs_reconstruct");
 #endif
 
 #ifdef WINDOWS
   EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_init,
-                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_init),
+                            (chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_init),
                             "hdfs_ec_chocolate_cloud_rs_init");
   EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_exit,
-                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_exit),
+                            (chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_exit),
                             "hdfs_ec_chocolate_cloud_rs_exit");
   EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_encode,
-                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode),
+                            (chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_encode),
                             "hdfs_ec_chocolate_cloud_rs_encode");
   EC_LOAD_DYNAMIC_SYMBOL(__d_hdfs_ec_chocolate_cloud_rs_reconstruct,
-                            (chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_reconstruct),
+                            (chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_reconstruct),
                             "hdfs_ec_chocolate_cloud_rs_reconstruct");
 #endif
 
   return NULL;
 }
 
-void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name) {
+void load_chocolatecloud_rs_lib(char* err, size_t err_len) {
   const char* errMsg;
   const char* library = NULL;
 #ifdef UNIX
@@ -85,18 +85,18 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
 
   err[0] = '\0';
 
-  if (chocolateCloudLoader != NULL) {
+  if (chocolateCloudRSLoader != NULL) {
     return;
   }
-  chocolateCloudLoader = calloc(1, sizeof(ChocolateCloudLibLoader));
-  memset(chocolateCloudLoader, 0, sizeof(ChocolateCloudLibLoader));
+  chocolateCloudRSLoader = calloc(1, sizeof(ChocolateCloudRSLibLoader));
+  memset(chocolateCloudRSLoader, 0, sizeof(ChocolateCloudRSLibLoader));
 
-  // Load ChocolateCloud library
+  // Load ChocolateCloud-RS library
   #ifdef UNIX
-  chocolateCloudLoader->libec = dlopen(library_name, RTLD_LAZY);
-  if (chocolateCloudLoader->libec == NULL) {
+  chocolateCloudRSLoader->libec = dlopen(HADOOP_CHOCOLATECLOUD_RS_LIBRARY, RTLD_LAZY);
+  if (chocolateCloudRSLoader->libec == NULL) {
     snprintf(err, err_len, "Failed to load %s (%s). Please make sure that /usr/lib/%s exists and it is readable.",
-                             library_name, dlerror(), library_name);
+                             HADOOP_CHOCOLATECLOUD_RS_LIBRARY, dlerror(), HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
     return;
   }
   // Clear any existing error
@@ -104,34 +104,34 @@ void load_chocolatecloud_lib(char* err, size_t err_len, const char* library_name
   #endif
 
   #ifdef WINDOWS
-  chocolateCloudLoader->libec = LoadLibrary(library_name);
-  if (chocolateCloudLoader->libec == NULL) {
+  chocolateCloudRSLoader->libec = LoadLibrary(HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
+  if (chocolateCloudRSLoader->libec == NULL) {
     snprintf(err, err_len, "Failed to load %s. Please make sure that %s exists and it is readable.",
-                             library_name, library_name);
+                             HADOOP_CHOCOLATECLOUD_RS_LIBRARY, HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
     return;
   }
   #endif
 
-  errMsg = load_functions(chocolateCloudLoader->libec);
+  errMsg = load_chocolatecloud_rs_functions(chocolateCloudRSLoader->libec);
   if (errMsg != NULL) {
-    snprintf(err, err_len, "Loading functions from ChocolateCloud library failed: %s", errMsg);
+    snprintf(err, err_len, "Loading functions from ChocolateCloud-RS library failed: %s", errMsg);
   }
 
 #ifdef UNIX
-  if(dladdr(chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode, &dl_info)) {
+  if(dladdr(chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_encode, &dl_info)) {
     library = dl_info.dli_fname;
   }
 #else
-  if (GetModuleFileName(chocolateCloudLoader->libec, filename, 256) > 0) {
+  if (GetModuleFileName(chocolateCloudRSLoader->libec, filename, 256) > 0) {
     library = filename;
   }
 #endif
 
   if (library == NULL) {
-    library = library_name;
+    library = HADOOP_CHOCOLATECLOUD_RS_LIBRARY;
   }
 
-  chocolateCloudLoader->libname = strdup(library);
+  chocolateCloudRSLoader->libname = strdup(library);
 
   h_hdfs_ec_chocolate_cloud_rs_init();
 }

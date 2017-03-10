@@ -15,12 +15,12 @@
  *  limitations under the License.
  */
 
-#ifndef _CHOCOLATECLOUD_ERASURE_CODE_H_
-#define _CHOCOLATECLOUD_ERASURE_CODE_H_
+#ifndef _CHOCOLATECLOUD_RS_ERASURE_CODE_H_
+#define _CHOCOLATECLOUD_RS_ERASURE_CODE_H_
 
 #include <stddef.h>
 
-#include "chocolatecloud_load.h"
+#include "chocolatecloud_rs_load.h"
 
 /**
  *  Interface to functions supporting erasure code encode and decode.
@@ -63,4 +63,4 @@ int h_hdfs_ec_chocolate_cloud_rs_exit();
      const unsigned erased_units_num
  );
 
-#endif //_CHOCOLATECLOUD_ERASURE_CODE_H_
+#endif //_CHOCOLATECLOUD_RS_ERASURE_CODE_H_

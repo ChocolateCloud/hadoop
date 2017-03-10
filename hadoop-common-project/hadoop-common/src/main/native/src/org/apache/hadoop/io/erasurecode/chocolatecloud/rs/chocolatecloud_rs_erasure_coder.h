@@ -16,31 +16,31 @@
  * limitations under the License.
  */
 
-#ifndef _CHOCOLATECLOUD_ERASURE_CODER_H_
-#define _CHOCOLATECLOUD_ERASURE_CODER_H_
+#ifndef _CHOCOLATECLOUD_RS_ERASURE_CODER_H_
+#define _CHOCOLATECLOUD_RS_ERASURE_CODER_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "chocolatecloud_load.h"
+#include "chocolatecloud_rs_load.h"
 
 #define MAXUNITSNUM 32
 
-typedef struct _ChocolateCloudCoder {
+typedef struct _ChocolateCloudRSCoder {
   int numParityUnits;
   int numDataUnits;
-} ChocolateCloudCoder;
+} ChocolateCloudRSCoder;
 
-void initChocolateCloudCoder(ChocolateCloudCoder* pCoder, int numDataUnits, int numParityUnits);
+void initChocolateCloudRSCoder(ChocolateCloudRSCoder* pCoder, int numDataUnits, int numParityUnits);
 
-int chocolateCloudEncode(unsigned char** dataUnits, unsigned char** parityUnits,
-    ChocolateCloudCoder* encoder, const int chunkSize);
+int chocolateCloudRSEncode(unsigned char** dataUnits, unsigned char** parityUnits,
+    ChocolateCloudRSCoder* encoder, const int chunkSize);
 
-int chocolateCloudReconstruct(ChocolateCloudCoder* decoder, const int chunkSize,
+int chocolateCloudRSReconstruct(ChocolateCloudRSCoder* decoder, const int chunkSize,
     unsigned char** inputs, unsigned char** outputs,
     const int* erasedIndexes, const unsigned numErased);
 
-void exitChocolateCloudCoder();
+void exitChocolateCloudRSCoder();
 
-#endif //_CHOCOLATECLOUD_ERASURE_CODER_H_
+#endif //_CHOCOLATECLOUD_RS_ERASURE_CODER_H_

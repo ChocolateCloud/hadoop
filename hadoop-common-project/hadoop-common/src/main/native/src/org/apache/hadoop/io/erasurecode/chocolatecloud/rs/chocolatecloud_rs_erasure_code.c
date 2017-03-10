@@ -20,21 +20,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "chocolatecloud_load.h"
-#include "chocolatecloud_erasure_code.h"
+#include "chocolatecloud_rs_load.h"
+#include "chocolatecloud_rs_erasure_code.h"
 
 /**
- *  chocolatecloud_erasure_code.c
- *  Implementation erasure code utilities based on ChocolateCloud library.
+ *  chocolatecloud_rs_erasure_code.c
+ *  Implementation erasure code utilities based on ChocolateCloud-RS library.
  *
  */
 
 int h_hdfs_ec_chocolate_cloud_rs_init(){
-  return chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_init();
+  return chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_init();
 }
 
 int h_hdfs_ec_chocolate_cloud_rs_exit(){
-  return chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_exit();
+  return chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_exit();
 }
 
 int h_hdfs_ec_chocolate_cloud_rs_encode
@@ -46,7 +46,7 @@ int h_hdfs_ec_chocolate_cloud_rs_encode
      const unsigned parity_units_num,
      const int chunk_size
 ){
-    return chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_encode
+    return chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_encode
     (
         data_buffers,
         parity_buffers,
@@ -69,7 +69,7 @@ int h_hdfs_ec_chocolate_cloud_rs_reconstruct
      const int* erased_indexes,
      const unsigned erased_units_num
 ){
-    return chocolateCloudLoader->hdfs_ec_chocolate_cloud_rs_reconstruct
+    return chocolateCloudRSLoader->hdfs_ec_chocolate_cloud_rs_reconstruct
      (
          data_units_num,
          parity_units_num,

@@ -170,20 +170,19 @@ if (CHOCOLATECLOUD_RS_LIBRARY)
     GET_FILENAME_COMPONENT(HADOOP_CHOCOLATECLOUD_RS_LIBRARY ${CHOCOLATECLOUD_RS_LIBRARY} NAME)
     set(CHOCOLATECLOUD_RS_INCLUDE_DIR ${SRC}/io/erasurecode)
     set(CHOCOLATECLOUD_RS_SOURCE_FILES
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_load.c
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_code.c
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_coder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_coder.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_erasure_code_chocolatecloud_rs.c
         ${SRC}/io/erasurecode/jni_common.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs.c
-        ${SRC}/io/erasurecode/chocolatecloud/jni_chocolatecloud.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_encoder.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_decoder.c)
 
         add_executable(chocolate_cloud_rs_test
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_load.c
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_code.c
-        ${SRC}/io/erasurecode/chocolatecloud/chocolatecloud_erasure_coder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_coder.c
         ${TST}/io/erasurecode/chocolatecloud/rs/chocolate_cloud_rs_test.c
         )
         target_link_libraries(chocolate_cloud_rs_test ${CMAKE_DL_LIBS})
