@@ -24,7 +24,6 @@
 #include "chocolatecloud_rs_erasure_code.h"
 #include "jni_chocolatecloud_rs.h"
 #include "chocolatecloud_rs_load.h"
-#include "../../jni_common.h"
 #include "org_apache_hadoop_io_erasurecode_rawcoder_NativeChocolateCloudRSRawEncoder.h"
 
 typedef struct _RSEncoder {
@@ -53,8 +52,8 @@ jint dataLen, jobjectArray outputs, jintArray outputOffsets) {
   int numParityUnits = rsEncoder->encoder.numParityUnits;
   int chunkSize = (int)dataLen;
 
-  getInputs(env, inputs, inputOffsets, rsEncoder->inputs, numDataUnits);
-  getOutputs(env, outputs, outputOffsets, rsEncoder->outputs, numParityUnits);
+  getChocolateCloudRSInputs(env, inputs, inputOffsets, rsEncoder->inputs, numDataUnits);
+  getChocolateCloudRSOutputs(env, outputs, outputOffsets, rsEncoder->outputs, numParityUnits);
 
   chocolateCloudRSEncode(rsEncoder->inputs, rsEncoder->outputs,
                         &rsEncoder->encoder, chunkSize);

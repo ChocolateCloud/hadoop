@@ -174,7 +174,6 @@ if (CHOCOLATECLOUD_RS_LIBRARY)
         ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_code.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_coder.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_erasure_code_chocolatecloud_rs.c
-        ${SRC}/io/erasurecode/jni_common.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_encoder.c
         ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_decoder.c)

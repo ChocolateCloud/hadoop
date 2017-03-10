@@ -193,7 +193,6 @@
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_code.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_coder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_erasure_code_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
-    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_common.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_encoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_decoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>

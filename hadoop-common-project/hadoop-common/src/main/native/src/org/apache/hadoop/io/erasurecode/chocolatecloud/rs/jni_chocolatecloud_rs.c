@@ -57,3 +57,48 @@ ChocolateCloudRSCoder* getChocolateCloudRSCoder(JNIEnv* env, jobject thiz) {
 
   return pCoder;
 }
+
+void getChocolateCloudRSInputs(JNIEnv *env, jobjectArray inputs, jintArray inputOffsets,
+                              unsigned char** destInputs, int num) {
+  int numInputs = (*env)->GetArrayLength(env, inputs);
+  int* tmpInputOffsets;
+  int i;
+  jobject byteBuffer;
+
+  if (numInputs != num) {
+    THROW(env, "java/lang/InternalError", "Invalid inputs");
+  }
+
+  tmpInputOffsets = (int*)(*env)->GetIntArrayElements(env,
+                                                      inputOffsets, NULL);
+  for (i = 0; i < numInputs; i++) {
+    byteBuffer = (*env)->GetObjectArrayElement(env, inputs, i);
+    if (byteBuffer != NULL) {
+      destInputs[i] = (unsigned char *)((*env)->GetDirectBufferAddress(env,
+                                                                byteBuffer));
+      destInputs[i] += tmpInputOffsets[i];
+    } else {
+      destInputs[i] = NULL;
+    }
+  }
+}
+
+void getChocolateCloudRSOutputs(JNIEnv *env, jobjectArray outputs, jintArray outputOffsets,
+                              unsigned char** destOutputs, int num) {
+  int numOutputs = (*env)->GetArrayLength(env, outputs);
+  int i, *tmpOutputOffsets;
+  jobject byteBuffer;
+
+  if (numOutputs != num) {
+    THROW(env, "java/lang/InternalError", "Invalid outputs");
+  }
+
+  tmpOutputOffsets = (int*)(*env)->GetIntArrayElements(env,
+                                                          outputOffsets, NULL);
+  for (i = 0; i < numOutputs; i++) {
+    byteBuffer = (*env)->GetObjectArrayElement(env, outputs, i);
+    destOutputs[i] = (unsigned char *)((*env)->GetDirectBufferAddress(env,
+                                                                  byteBuffer));
+    destOutputs[i] += tmpOutputOffsets[i];
+  }
+}

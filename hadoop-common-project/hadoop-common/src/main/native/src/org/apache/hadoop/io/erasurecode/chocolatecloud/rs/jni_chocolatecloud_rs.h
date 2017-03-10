@@ -33,4 +33,9 @@ void setChocolateCloudRSCoder(JNIEnv* env, jobject thiz, ChocolateCloudRSCoder* 
 
 ChocolateCloudRSCoder* getChocolateCloudRSCoder(JNIEnv* env, jobject thiz);
 
+void getChocolateCloudRSInputs(JNIEnv *env, jobjectArray inputs, jintArray inputOffsets,
+                              unsigned char** destInputs, int num);
+
+void getChocolateCloudRSOutputs(JNIEnv *env, jobjectArray outputs, jintArray outputOffsets,
+                              unsigned char** destOutputs, int num);
 #endif //_JNI_CHOCOLATECLOUD_RS_H_
