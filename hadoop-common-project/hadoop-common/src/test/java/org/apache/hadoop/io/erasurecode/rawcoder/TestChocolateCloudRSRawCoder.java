@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test raw ChocolateCloud Reed-solomon encoding and decoding.
+ * Test raw ChocolateCloud Reed-Solomon encoding and decoding.
  */
 public class TestChocolateCloudRSRawCoder extends TestRSRawCoderBase {
 

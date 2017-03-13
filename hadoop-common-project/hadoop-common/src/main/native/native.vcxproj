@@ -103,7 +103,7 @@
   </Target>
   <Target Name="CheckRequireChocolateCloudRS">
     <Error
-      Text="Required ChocolateCloud-RS library could not be found. Please make sure that hdfs_ec_chocolate_cloud_rs.dll exists to build with ChocolateCloud-RS library. CustomChocolateCloudRSLib=$(CustomChocolateCloudRSLib), CustomChocolateCloudRSPrefix=$(CustomChocolateCloudRSPrefix)"
+      Text="Required ChocolateCloud-RS library could not be found. Please make sure that hdfs_ec_chocolate_cloud_rs.dll exists under one of the following paths to build with ChocolateCloud-RS library. CustomChocolateCloudRSLib=$(CustomChocolateCloudRSLib), CustomChocolateCloudRSPrefix=$(CustomChocolateCloudRSPrefix)"
       Condition="'$(RequireChocolateCloudRS)' == 'true' And '$(ChocolateCloudRSEnabled)' != 'true'" />
   </Target>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -80,7 +80,7 @@ void load_chocolatecloud_rs_lib(char* err, size_t err_len) {
 #ifdef UNIX
   Dl_info dl_info;
 #else
-  LPTSTR filename = NULL;
+  LPTSTR filename[MAX_PATH];
 #endif
 
   err[0] = '\0';
@@ -106,8 +106,8 @@ void load_chocolatecloud_rs_lib(char* err, size_t err_len) {
   #ifdef WINDOWS
   chocolateCloudRSLoader->libec = LoadLibrary(HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
   if (chocolateCloudRSLoader->libec == NULL) {
-    snprintf(err, err_len, "Failed to load %s. Please make sure that %s exists and it is readable.",
-                             HADOOP_CHOCOLATECLOUD_RS_LIBRARY, HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
+    snprintf(err, err_len, "Failed to load %s (%s). Please make sure that %s exists and it is readable.",
+                             HADOOP_CHOCOLATECLOUD_RS_LIBRARY, GetLastError(), HADOOP_CHOCOLATECLOUD_RS_LIBRARY);
     return;
   }
   #endif
@@ -122,8 +122,10 @@ void load_chocolatecloud_rs_lib(char* err, size_t err_len) {
     library = dl_info.dli_fname;
   }
 #else
-  if (GetModuleFileName(chocolateCloudRSLoader->libec, filename, 256) > 0) {
+  if (GetModuleFileName(chocolateCloudRSLoader->libec, filename, MAX_PATH) > 0) {
     library = filename;
+  } else {
+    snprintf(err, err_len, "Failed to get filename: %s", GetLastError());
   }
 #endif
 
