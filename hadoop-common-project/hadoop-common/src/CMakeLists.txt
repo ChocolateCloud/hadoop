@@ -187,7 +187,7 @@ if (CHOCOLATECLOUD_RS_LIBRARY)
         target_link_libraries(chocolate_cloud_rs_test ${CMAKE_DL_LIBS})
 else (CHOCOLATECLOUD_RS_LIBRARY)
     IF(REQUIRE_CHOCOLATECLOUD_RS)
-        MESSAGE(FATAL_ERROR "Required ChocolateCloud-RS library could not be found. Please make sure that libhdfs_ec_chocolate_cloud_rs.so.1 exists under /usr/lib or under the following paths to build with ChocolateCloud-RS library. CHOCOLATECLOUD_RS_LIBRARY=${CHOCOLATECLOUD_RS_LIBRARY}, CUSTOM_CHOCOLATECLOUD_RS_PREFIX=${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}")
+        MESSAGE(FATAL_ERROR "Required ChocolateCloud-RS library could not be found. Please make sure that libhdfs_ec_chocolate_cloud_rs.so.1 exists under /usr/lib or under the following paths to build with ChocolateCloud-RS library. chocolatecloud.rs.lib=${CUSTOM_CHOCOLATECLOUD_RS_LIB}, chocolatecloud.rs.prefix=${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}")
     ENDIF(REQUIRE_CHOCOLATECLOUD_RS)
 endif (CHOCOLATECLOUD_RS_LIBRARY)
 

@@ -160,7 +160,7 @@ if [[ -d "${LIB_DIR}" ]]; then
 
   bundle_native_lib "${ISALBUNDLE}" "isal.lib" "isa" "${ISALLIB}"
 
-  bundle_native_lib "${CHOCOLATECLOUDRSBUNDLE}" "chocolatecloud.rs.lib" "chocolatecloud.rs" "${CHOCOLATECLOUDRSLIB}"
+  bundle_native_lib "${CHOCOLATECLOUDRSBUNDLE}" "chocolatecloud.rs.lib" "chocolate_cloud_rs" "${CHOCOLATECLOUDRSLIB}"
 fi
 
 # Windows
