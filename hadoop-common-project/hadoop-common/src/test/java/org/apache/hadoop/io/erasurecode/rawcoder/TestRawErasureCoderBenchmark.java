@@ -18,6 +18,7 @@
 package org.apache.hadoop.io.erasurecode.rawcoder;
 
 import org.apache.hadoop.io.erasurecode.ErasureCodeNative;
+import org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS;
 import org.junit.Assume;
 import org.junit.Test;
 
@@ -61,5 +62,15 @@ public class TestRawErasureCoderBenchmark {
         RawErasureCoderBenchmark.CODER.ISAL_CODER, 5, 300, 64);
     RawErasureCoderBenchmark.performBench("decode",
         RawErasureCoderBenchmark.CODER.ISAL_CODER, 6, 200, 128);
+  }
+
+  @Test
+  public void testChocolateCloudRSCoder() throws Exception {
+    Assume.assumeTrue(ErasureCodeChocolateCloudRS.isNativeCodeLoaded());
+    // ChocolateCloud-RS coder
+    RawErasureCoderBenchmark.performBench("encode",
+            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 5, 300, 64);
+    RawErasureCoderBenchmark.performBench("decode",
+            RawErasureCoderBenchmark.CODER.CHOCOLATECLOUD_RS_CODER, 6, 200, 128);
   }
 }

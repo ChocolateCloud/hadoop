@@ -20,6 +20,7 @@ package org.apache.hadoop.util;
 
 import org.apache.hadoop.io.compress.ZStandardCodec;
 import org.apache.hadoop.io.erasurecode.ErasureCodeNative;
+import org.apache.hadoop.io.erasurecode.ErasureCodeChocolateCloudRS;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.crypto.OpensslCipher;
 import org.apache.hadoop.io.compress.Lz4Codec;
@@ -68,6 +69,7 @@ public class NativeLibraryChecker {
     boolean zlibLoaded = false;
     boolean snappyLoaded = false;
     boolean isalLoaded = false;
+    boolean chocolateCloudRSLoaded = false;
     boolean zStdLoaded = false;
     // lz4 is linked within libhadoop
     boolean lz4Loaded = nativeHadoopLoaded;
@@ -80,6 +82,7 @@ public class NativeLibraryChecker {
     String zlibLibraryName = "";
     String snappyLibraryName = "";
     String isalDetail = "";
+    String chocolateCloudRSDetail = "";
     String zstdLibraryName = "";
     String lz4LibraryName = "";
     String bzip2LibraryName = "";
@@ -108,6 +111,14 @@ public class NativeLibraryChecker {
       } else {
         isalDetail = ErasureCodeNative.getLibraryName();
         isalLoaded = true;
+      }
+
+      chocolateCloudRSDetail = ErasureCodeChocolateCloudRS.getLoadingFailureReason();
+      if (chocolateCloudRSDetail != null) {
+        chocolateCloudRSLoaded = false;
+      } else {
+        chocolateCloudRSDetail = ErasureCodeChocolateCloudRS.getLibraryName();
+        chocolateCloudRSLoaded = true;
       }
 
       openSslDetail = OpensslCipher.getLoadingFailureReason();
@@ -148,6 +159,7 @@ public class NativeLibraryChecker {
     System.out.printf("bzip2:   %b %s%n", bzip2Loaded, bzip2LibraryName);
     System.out.printf("openssl: %b %s%n", openSslLoaded, openSslDetail);
     System.out.printf("ISA-L:   %b %s%n", isalLoaded, isalDetail);
+    System.out.printf("ChocolateCloud-RS:   %b %s%n", chocolateCloudRSLoaded, chocolateCloudRSDetail);
 
     if (Shell.WINDOWS) {
       System.out.printf("winutils: %b %s%n", winutilsExists, winutilsPath);
@@ -155,7 +167,7 @@ public class NativeLibraryChecker {
 
     if ((!nativeHadoopLoaded) || (Shell.WINDOWS && (!winutilsExists)) ||
         (checkAll && !(zlibLoaded && snappyLoaded && lz4Loaded
-            && bzip2Loaded && isalLoaded && zStdLoaded))) {
+            && bzip2Loaded && isalLoaded && chocolateCloudRSLoaded && zStdLoaded))) {
       // return 1 to indicated check failed
       ExitUtil.terminate(1);
     }

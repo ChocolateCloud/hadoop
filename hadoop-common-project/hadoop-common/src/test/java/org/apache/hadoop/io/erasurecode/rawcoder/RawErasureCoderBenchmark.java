@@ -62,13 +62,15 @@ public final class RawErasureCoderBenchmark {
           Arrays.asList(new DummyRawErasureCoderFactory(),
               new RSRawErasureCoderFactoryLegacy(),
               new RSRawErasureCoderFactory(),
-              new NativeRSRawErasureCoderFactory()));
+              new NativeRSRawErasureCoderFactory(),
+              new NativeChocolateCloudRSRawErasureCoderFactory()));
 
   enum CODER {
     DUMMY_CODER("Dummy coder"),
     LEGACY_RS_CODER("Legacy Reed-Solomon Java coder"),
     RS_CODER("Reed-Solomon Java coder"),
-    ISAL_CODER("ISA-L coder");
+    ISAL_CODER("ISA-L coder"),
+    CHOCOLATECLOUD_RS_CODER("ChocolateCloud-RS coder");
 
     private final String name;
 
