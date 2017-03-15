@@ -159,6 +159,38 @@ else (ISAL_LIBRARY)
     ENDIF(REQUIRE_ISAL)
 endif (ISAL_LIBRARY)
 
+set(STORED_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+hadoop_set_find_shared_library_version("1")
+find_library(CHOCOLATECLOUD_RS_LIBRARY
+    NAMES hdfs_ec_chocolate_cloud_rs
+    PATHS ${CUSTOM_CHOCOLATECLOUD_RS_PREFIX} ${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}/lib
+             ${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}/lib64 ${CUSTOM_CHOCOLATECLOUD_RS_LIB} /usr/lib)
+set(CMAKE_FIND_LIBRARY_SUFFIXES ${STORED_CMAKE_FIND_LIBRARY_SUFFIXES})
+if (CHOCOLATECLOUD_RS_LIBRARY)
+    GET_FILENAME_COMPONENT(HADOOP_CHOCOLATECLOUD_RS_LIBRARY ${CHOCOLATECLOUD_RS_LIBRARY} NAME)
+    set(CHOCOLATECLOUD_RS_INCLUDE_DIR ${SRC}/io/erasurecode/chocolatecloud/rs)
+    set(CHOCOLATECLOUD_RS_SOURCE_FILES
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_coder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_erasure_code_chocolatecloud_rs.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_encoder.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/jni_chocolatecloud_rs_decoder.c)
+
+        add_executable(chocolate_cloud_rs_test
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_load.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_code.c
+        ${SRC}/io/erasurecode/chocolatecloud/rs/chocolatecloud_rs_erasure_coder.c
+        ${TST}/io/erasurecode/chocolatecloud/rs/chocolate_cloud_rs_test.c
+        )
+        target_link_libraries(chocolate_cloud_rs_test ${CMAKE_DL_LIBS})
+else (CHOCOLATECLOUD_RS_LIBRARY)
+    IF(REQUIRE_CHOCOLATECLOUD_RS)
+        MESSAGE(FATAL_ERROR "Required ChocolateCloud-RS library could not be found. Please make sure that libhdfs_ec_chocolate_cloud_rs.so.1 exists under /usr/lib or under the following paths to build with ChocolateCloud-RS library. chocolatecloud.rs.lib=${CUSTOM_CHOCOLATECLOUD_RS_LIB}, chocolatecloud.rs.prefix=${CUSTOM_CHOCOLATECLOUD_RS_PREFIX}")
+    ENDIF(REQUIRE_CHOCOLATECLOUD_RS)
+endif (CHOCOLATECLOUD_RS_LIBRARY)
+
 # Build hardware CRC32 acceleration, if supported on the platform.
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^i.86$" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "amd64")
   set(BULK_CRC_ARCH_SOURCE_FIlE "${SRC}/util/bulk_crc32_x86.c")
@@ -235,6 +267,7 @@ include_directories(
     ${BZIP2_INCLUDE_DIR}
     ${SNAPPY_INCLUDE_DIR}
     ${ISAL_INCLUDE_DIR}
+    ${CHOCOLATECLOUD_RS_INCLUDE_DIR}
     ${ZSTD_INCLUDE_DIR}
     ${OPENSSL_INCLUDE_DIR}
     ${SRC}/util
@@ -249,6 +282,7 @@ hadoop_add_dual_library(hadoop
     ${SRC}/io/compress/lz4/lz4.c
     ${SRC}/io/compress/lz4/lz4hc.c
     ${ISAL_SOURCE_FILES}
+    ${CHOCOLATECLOUD_RS_SOURCE_FILES}
     ${SNAPPY_SOURCE_FILES}
     ${ZSTD_SOURCE_FILES}
     ${OPENSSL_SOURCE_FILES}

@@ -70,6 +70,10 @@ Architecture
     Intel ISA-L stands for Intel Intelligent Storage Acceleration Library. ISA-L is a collection of optimized low-level functions used primarily in storage applications. It includes a fast block Reed-Solomon type erasure codes optimized for Intel AVX and AVX2 instruction sets.
     HDFS EC can leverage this open-source library to accelerate encoding and decoding calculation. ISA-L supports most of major operating systems, including Linux and Windows. By default, ISA-L is not enabled in HDFS.
 
+*  **ChocolateCloud-RS**
+    ChocolateCloud-RS is Chocolate Cloud's Reed-Solomon plugin for HDFS EC which can accelerate the encoding and decoding process. It leverages hardware acceleration by using low level SSSE3 instructions.
+    ChocolateCloud-RS supports Linux and Windows. It is not enabled in HDFS by default.
+
 Deployment
 ----------
 
@@ -94,7 +98,8 @@ Deployment
   `io.erasurecode.codec.rs.rawcoder` for the default RS codec,
   `io.erasurecode.codec.rs-legacy.rawcoder` for the legacy RS codec,
   `io.erasurecode.codec.xor.rawcoder` for the XOR codec.
-  The default implementations for all of these codecs are pure Java. For default RS codec, there is also a native implementation which leverages Intel ISA-L library to improve the performance of codec. For XOR codec, a native implementation which leverages Intel ISA-L library to improve the performance of codec is also supported. Please refer to section "Enable Intel ISA-L" for more detail information.
+  The default implementations for all of these codecs are pure Java. For default RS codec, there is a native implementation which leverages Intel ISA-L library to improve the performance of codec. For XOR codec, a native implementation which leverages Intel ISA-L library to improve the performance of codec is also supported. Please refer to section "Enable Intel ISA-L" for more detail information.
+  For the RS codec, there is another native implementation which uses the ChocolateCloud-RS library to accelerate codec operations. Please refer to section "Enable ChocolateCloud-RS" for more detailed information.
 
   Erasure coding background recovery work on the DataNodes can also be tuned via the following configuration parameters:
 
@@ -113,6 +118,15 @@ Deployment
   To check ISA-L library enable state, try "Hadoop checknative" command. It will tell you if ISA-L library is enabled or not.
 
   It also requires three steps to enable the native implementation of XOR codec. The first two steps are the same as the above step 1 and step 2. In step 3, configure the `io.erasurecode.codec.xor.rawcoder` key with `org.apache.hadoop.io.erasurecode.rawcoder.NativeXORRawErasureCoderFactory` on both HDFS client and DataNodes.
+
+### Enable ChocolateCloud-RS
+
+  HDFS has another native implementation of default RS codec which leverages ChocolateCloud-RS library to improve the encoding and decoding calculation. To enable and use ChocolateCloud-RS, there are three steps.
+  1. Get ChocolateCloud-RS library. Please visit https://www.chocolate-cloud.cc/hdfs-plugins for details.
+  2. Build Hadoop with ChocolateCloud-RS support. Please refer to "ChocolateCloud-RS build options" section in "Build instructions for Hadoop"(BUILDING.txt) document. Use -Dbundle.chocolatecloud.rs to copy the contents of the chocolatecloud.rs.lib directory into the final tar file. Deploy hadoop with the tar file. Make sure ChocolateCloud-RS library is available on both HDFS client and DataNodes.
+  3. Configure the `io.erasurecode.codec.rs.rawcoder` key with value `org.apache.hadoop.io.erasurecode.rawcoder.NativeChocolateCloudRSRawErasureCoderFactory` on HDFS client and DataNodes.
+
+  To check ChocolateCloud-RS library enable state, try "Hadoop checknative" command. It will tell you if ChocolateCloud-RS library is enabled or not.
 
 ### Administrative commands
 

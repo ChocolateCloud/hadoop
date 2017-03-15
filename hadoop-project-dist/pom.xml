@@ -46,6 +46,8 @@
     <bundle.zstd.in.bin>false</bundle.zstd.in.bin>
     <isal.lib></isal.lib>
     <bundle.isal>false</bundle.isal>
+    <chocolatecloud.rs.lib></chocolatecloud.rs.lib>
+    <bundle.chocolatecloud.rs>false</bundle.chocolatecloud.rs>
     <openssl.lib></openssl.lib>
     <bundle.openssl>false</bundle.openssl>
     <bundle.openssl.in.bin>false</bundle.openssl.in.bin>
@@ -360,6 +362,8 @@
                     <argument>--artifactid=${project.artifactId}</argument>
                     <argument>--isalbundle=${bundle.isal}</argument>
                     <argument>--isallib=${isal.lib}</argument>
+                    <argument>--chocolatecloudrsbundle=${bundle.chocolatecloud.rs}</argument>
+                    <argument>--chocolatecloudrslib=${chocolatecloud.rs.lib}</argument>
                     <argument>--openssllib=${openssl.lib}</argument>
                     <argument>--opensslbinbundle=${bundle.openssl.in.bin}</argument>
                     <argument>--openssllibbundle=${bundle.openssl}</argument>

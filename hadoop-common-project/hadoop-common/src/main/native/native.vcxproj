@@ -17,7 +17,7 @@
    limitations under the License.
 -->
 
-<Project DefaultTargets="CheckRequireSnappy;CheckRequireIsal;Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="CheckRequireSnappy;CheckRequireIsal;CheckRequireChocolateCloudRS;Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
@@ -85,6 +85,12 @@
     <IsalLib Condition="Exists('$(CustomIsalLib)') And '$(IsalLib)' == ''">$(CustomIsalLib)</IsalLib>
     <IsalEnabled Condition="'$(IsalLib)' != ''">true</IsalEnabled>
   </PropertyGroup>
+  <PropertyGroup>
+    <ChocolateCloudRSLib Condition="Exists('$(CustomChocolateCloudRSPrefix)\hdfs_ec_chocolate_cloud_rs.dll')">$(CustomChocolateCloudRSPrefix)</ChocolateCloudRSLib>
+    <ChocolateCloudRSLib Condition="Exists('$(CustomChocolateCloudRSPrefix)\lib\hdfs_ec_chocolate_cloud_rs.dll') And '$(ChocolateCloudRSLib)' == ''">$(CustomChocolateCloudRSPrefix)\lib</ChocolateCloudRSLib>
+    <ChocolateCloudRSLib Condition="Exists('$(CustomChocolateCloudRSLib)') And '$(ChocolateCloudRSLib)' == ''">$(CustomChocolateCloudRSLib)</ChocolateCloudRSLib>
+    <ChocolateCloudRSEnabled Condition="'$(ChocolateCloudRSLib)' != ''">true</ChocolateCloudRSEnabled>
+  </PropertyGroup>
   <Target Name="CheckRequireSnappy">
     <Error
       Text="Required snappy library could not be found.  SnappyLibrary=$(SnappyLibrary), SnappyInclude=$(SnappyInclude), CustomSnappyLib=$(CustomSnappyLib), CustomSnappyInclude=$(CustomSnappyInclude), CustomSnappyPrefix=$(CustomSnappyPrefix)"
@@ -94,6 +100,11 @@
     <Error
       Text="Required ISA-L library could not be found. CustomIsalLib=$(CustomIsalLib), CustomIsalPrefix=$(CustomIsalPrefix)"
       Condition="'$(RequireIsal)' == 'true' And '$(IsalEnabled)' != 'true'" />
+  </Target>
+  <Target Name="CheckRequireChocolateCloudRS">
+    <Error
+      Text="Required ChocolateCloud-RS library could not be found. Please make sure that hdfs_ec_chocolate_cloud_rs.dll exists under one of the following paths to build with ChocolateCloud-RS library. CustomChocolateCloudRSLib=$(CustomChocolateCloudRSLib), CustomChocolateCloudRSPrefix=$(CustomChocolateCloudRSPrefix)"
+      Condition="'$(RequireChocolateCloudRS)' == 'true' And '$(ChocolateCloudRSEnabled)' != 'true'" />
   </Target>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -157,6 +168,7 @@
     <ClCompile Include="src\org\apache\hadoop\util\NativeCodeLoader.c">
       <AdditionalOptions Condition="'$(SnappyEnabled)' == 'true'">/D HADOOP_SNAPPY_LIBRARY=L\"snappy.dll\"</AdditionalOptions>
       <AdditionalOptions Condition="'$(IsalEnabled)' == 'true'">/D HADOOP_ISAL_LIBRARY=L\"isa-l.dll\"</AdditionalOptions>
+      <AdditionalOptions Condition="'$(ChocolateCloudRSEnabled)' == 'true'">/D HADOOP_CHOCOLATECLOUD_RS_LIBRARY=L\"hdfs_ec_chocolate_cloud_rs.dll\"</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="src\org\apache\hadoop\util\NativeCrc32.c" />
     <ClCompile Include="src\org\apache\hadoop\yarn\server\nodemanager\windows_secure_container_executor.c">
@@ -175,6 +187,15 @@
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_rs_decoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_xor_encoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
     <ClCompile Include="src\org\apache\hadoop\io\erasurecode\jni_xor_decoder.c" Condition="'$(IsalEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_load.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'">
+      <AdditionalOptions>/D HADOOP_CHOCOLATECLOUD_RS_LIBRARY=L\"hdfs_ec_chocolate_cloud_rs.dll\"</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_code.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\chocolatecloud_rs_erasure_coder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_erasure_code_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_encoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
+    <ClCompile Include="src\org\apache\hadoop\io\erasurecode\chocolatecloud\rs\jni_chocolatecloud_rs_decoder.c" Condition="'$(ChocolateCloudRSEnabled)' == 'true'"/>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\org\apache\hadoop\util\crc32c_tables.h" />
